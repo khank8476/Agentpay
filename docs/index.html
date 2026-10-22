@@ -415,6 +415,75 @@ app.use("/api/reviews", createPPVMiddleware({
         </div>
       </div>
     </div>
+
+    <!-- Plain-English Wiki & Explainer Section -->
+    <div style="margin-top: 40px; margin-bottom: 40px;">
+      <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px;">📖 Plain-English Wiki: How AgentPay Works Under the Hood</h2>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Zero confusing jargon. Everything you need to know about micro-vouchers, smart contracts, and settlement.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+        <!-- Card 1: What is a Micro-Voucher -->
+        <div class="panel">
+          <h3 style="font-size: 17px; font-weight: 700; color: #60a5fa; margin-bottom: 12px;">🍺 1. What is a "Micro-Voucher"? (The Bar Tab Analogy)</h3>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 12px;">
+            Imagine ordering 20 sips of water at a bar. If you swiped your credit card for each sip ($0.05), the $0.30 credit card fee would bankrupt you, and you'd wait 10 seconds every sip.
+          </p>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">
+            Instead, you <strong>open a tab</strong> with $10 cash. Each time you sip, you scribble a signed note on a napkin: <em>"I owe $0.05 total"</em>, then <em>"I owe $0.10 total"</em>. At the end of the night, the bartender cashes <strong>only the final napkin</strong>. That signed digital napkin is a <strong>micro-voucher</strong>! Verifying it on CPU takes <strong>0.15ms</strong> without calling the blockchain!
+          </p>
+        </div>
+
+        <!-- Card 2: What is the Smart Contract -->
+        <div class="panel">
+          <h3 style="font-size: 17px; font-weight: 700; color: #34d399; margin-bottom: 12px;">🏛️ 2. What is the Smart Contract?</h3>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 12px;">
+            The contract (<code>MicropaymentEscrow.sol</code>) is an <strong>unbiased digital vault</strong> that lives on Base L2 or Arbitrum.
+          </p>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6;">
+            <strong>Why do we need it?</strong> If the agent only gives promises on napkins, how does the website know the agent has money? The contract holds the agent's real USDC deposit in escrow. When the website submits the signed voucher, the contract pays out the earned USDC instantly. Neither party can cheat!
+          </p>
+        </div>
+
+        <!-- Card 3: How Settlement Works -->
+        <div class="panel">
+          <h3 style="font-size: 17px; font-weight: 700; color: #fbbf24; margin-bottom: 12px;">🔄 3. How Does Payment Settle?</h3>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 12px;">
+            <strong>Step 1:</strong> Agent locks $10 USDC in the contract.<br>
+            <strong>Step 2:</strong> Agent reads 100 articles, signing a $0.05 increment voucher each time (0.15ms each).<br>
+            <strong>Step 3:</strong> The website submits <em>only the 100th voucher ($5.00)</em> to the contract.<br>
+            <strong>Step 4:</strong> Contract transfers $5.00 USDC to the website owner and unlocks the remaining $5.00 to the agent!
+          </p>
+          <p style="font-size: 12px; color: #10b981; font-weight: 600;">
+            100 visits occurred, but the blockchain was touched only ONCE!
+          </p>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="panel" style="margin-top: 24px;">
+        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">❓ Frequently Asked Questions</h3>
+        
+        <div style="margin-bottom: 16px;">
+          <h4 style="font-size: 14px; font-weight: 700; color: #93c5fd; margin-bottom: 4px;">Q: Do regular human visitors need crypto or a wallet?</h4>
+          <p style="font-size: 13px; color: #cbd5e1;"><strong>No!</strong> The system detects regular browsers (Chrome, Safari, Firefox). Humans browse normally and see standard ads. Only autonomous AI crawlers and bots are asked to pay.</p>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <h4 style="font-size: 14px; font-weight: 700; color: #93c5fd; margin-bottom: 4px;">Q: What if an agent tries to spend more than deposited?</h4>
+          <p style="font-size: 13px; color: #cbd5e1;">The server's in-memory solvency check catches it in <strong>0.002 milliseconds</strong> and immediately responds with <code>402 Channel Depleted</code>.</p>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <h4 style="font-size: 14px; font-weight: 700; color: #93c5fd; margin-bottom: 4px;">Q: What if the website owner disappears? How does the agent get funds back?</h4>
+          <p style="font-size: 13px; color: #cbd5e1;">The smart contract has a 24-hour challenge window (<code>requestCloseChannel</code>). If 24 hours pass without dispute, 100% of unspent USDC is refunded back to the agent's wallet.</p>
+        </div>
+
+        <div>
+          <h4 style="font-size: 14px; font-weight: 700; color: #93c5fd; margin-bottom: 4px;">Q: How do I test the full settlement locally?</h4>
+          <p style="font-size: 13px; color: #cbd5e1;">Run <code>npm run walkthrough</code> or <code>node scripts/testRealSettlement.js</code> in your terminal to see the complete smart contract lifecycle simulated step-by-step!</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>

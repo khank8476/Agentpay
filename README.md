@@ -9,7 +9,8 @@
 
 An open, high-performance HTTP-native micropayment gateway and middleware built on the **x402 standard** (`HTTP 402 Payment Required`). Designed to replace dying ad-impression revenue by charging autonomous AI agents, crawlers, and LLM search bots (e.g. ClaudeBot, GPTBot, Perplexity) micro-fees (e.g. **$0.05 USDC per visit/action**) with **sub-millisecond cryptographic confirmation (< 0.2ms)**.
 
-👉 **Live Interactive Demo on GitHub Pages:** **[https://khank8476.github.io/Agentpay/](https://khank8476.github.io/Agentpay/)**
+👉 **Live Interactive Demo on GitHub Pages:** **[https://khank8476.github.io/Agentpay/](https://khank8476.github.io/Agentpay/)**  
+📖 **Plain-English Wiki & Guide:** **[docs/WIKI.md](docs/WIKI.md)** (Answers: What is a micro-voucher? How does payment settle? How to test?)
 
 ---
 

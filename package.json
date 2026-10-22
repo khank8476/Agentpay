@@ -20,6 +20,7 @@
     "security-test": "node packages/core/tests/security.test.js",
     "demo": "node demo/publisherServer.js",
     "simulate": "node demo/autonomousAgent.js",
+    "walkthrough": "node scripts/testRealSettlement.js",
     "benchmark": "node demo/benchmarkSuite.js"
   },
   "repository": {
