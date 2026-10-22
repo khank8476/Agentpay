@@ -233,3 +233,52 @@ app.use("/api/reviews", createPPVMiddleware({
   recipientAddress: "0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F"
 }));
 ```
+
+---
+
+## 7. Deep Dive: The "One-Visit" Problem, Global Vault & Zero Trapped Funds
+
+### Question 1: "Can I serve ONE single contract for EVERY website that installs agentpay-protocol?"
+**YES! 100% Absolutely.**  
+This is the core design principle of **`AgentPayGlobalVault.sol`**:
+* The contract is deployed **ONCE** on Base L2 (or Arbitrum).
+* Websites **NEVER deploy contracts**. A website owner only installs the npm package: `npm install agentpay-protocol`.
+* When configuring the middleware, the website owner simply passes their own payout address:
+  `recipientAddress: "0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F"`.
+* The single global contract handles deposits, vouchers, and payouts for the entire internet.
+
+---
+
+### Question 2: "What if an AI agent visits only ONCE ($0.05)? How is the $5.00 threshold reached?"
+If an AI agent visits your tech blog only once and spends $0.05:
+* **The website does NOT wait for that single agent to spend $5.00.**
+* The website accumulates micro-vouchers across **ALL agents combined**!
+  * Agent A visits once &rarr; pays $0.05
+  * Agent B visits once &rarr; pays $0.05
+  * Agent C visits twice &rarr; pays $0.10
+  * ...
+  * 100 different AI agents visit throughout the week &rarr; **Total: $5.00 USDC!**
+* The website's background settler calls `AgentPayGlobalVault.settleBatch([100 vouchers])` in **ONE single transaction**.
+* The smart contract deducts $0.05 from each agent's global deposit and transfers the total $5.00 lump sum directly to the website owner's wallet!
+
+---
+
+### Question 3: "Does an AI agent need a deposit account for every single website?"
+**NO! That would be unusable.**  
+In the **Global Vault Architecture** ([`contracts/AgentPayGlobalVault.sol`](../contracts/AgentPayGlobalVault.sol)):
+1. The AI Agent deposits $10.00 USDC into the **Global Vault ONCE**.
+2. That single $10.00 deposit is a **universal balance**:
+   * The agent spends $0.05 on TechBlog.com
+   * The agent spends $0.05 on NewsSite.com
+   * The agent spends $0.05 on ResearchAPI.io
+3. The agent does NOT open individual channels per website. It has one master debit balance.
+
+---
+
+### Question 4: "What happens to locked funds? Can money ever get trapped?"
+**NO funds can ever be trapped or lost.**
+1. **Instant On-Demand Withdrawals:**
+   An agent can call `AgentPayGlobalVault.withdraw(amount)` at **any time**. If an agent deposited $10.00 and spent $1.50, they can withdraw the remaining $8.50 with a single transaction immediately.
+2. **Auto-Expiry Protection:**
+   Every voucher has an expiration timestamp (e.g. 2 hours or 24 hours). Once a voucher expires, it can never be redeemed. The agent’s unspent balance is 100% liquid and withdrawable.
+
