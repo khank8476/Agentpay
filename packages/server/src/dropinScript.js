@@ -4,10 +4,10 @@
  */
 
 export function generateDropinScriptHtml({
-  scriptUrl = "https://cdn.agentpay.network/v1/gate.js",
+  scriptUrl = "https://khank8476.github.io/Agentpay/gate.js",
   siteId,
   priceUsd = 0.05,
-  recipientAddress,
+  recipientAddress = "0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F",
   currency = "USDC",
   network = "base"
 }) {

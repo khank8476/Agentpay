@@ -1,5 +1,6 @@
 # AgentPay Protocol: Ultra-Fast 1-2ms Pay-Per-Action (PPA) & Pay-Per-Visit (PPV) for the AI Agentic Web
 
+[![npm version](https://img.shields.io/npm/v/agentpay-protocol.svg)](https://www.npmjs.com/package/agentpay-protocol)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![x402 Compatible](https://img.shields.io/badge/x402-Standard-green.svg)](https://x402.org)
 [![Node.js CI](https://github.com/khank8476/Agentpay/actions/workflows/ci.yml/badge.svg)](https://github.com/khank8476/Agentpay/actions)
@@ -7,6 +8,8 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 An open, high-performance HTTP-native micropayment gateway and middleware built on the **x402 standard** (`HTTP 402 Payment Required`). Designed to replace dying ad-impression revenue by charging autonomous AI agents, crawlers, and LLM search bots (e.g. ClaudeBot, GPTBot, Perplexity) micro-fees (e.g. **$0.05 USDC per visit/action**) with **sub-millisecond cryptographic confirmation (< 0.2ms)**.
+
+👉 **Live Interactive Demo on GitHub Pages:** **[https://khank8476.github.io/Agentpay/](https://khank8476.github.io/Agentpay/)**
 
 ---
 
@@ -70,13 +73,13 @@ AgentPay achieves **0.17 ms average confirmation speed** through a **Dual-Tier S
 +-----------------------------------------------------------------------------------+
 | [AI Agent Client]                                         [Publisher Web Server]  |
 |         |                                                           |             |
-|         | ----- 1. GET /api/reviews/blackwell-b200 ---------------> |             |
+|         | ----- 1. GET /api/reviews/nvidia-b200 ------------------> |             |
 |         |                                                           |             |
 |         | <---- 2. HTTP 402 Payment Required (Challenge Header) --- |             |
 |         |                                                           |             |
 |  (Signs micro-voucher in ~0.2ms)                                    |             |
 |         |                                                           |             |
-|         | ----- 3. GET /api/reviews/blackwell-b200 ---------------> |             |
+|         | ----- 3. GET /api/reviews/nvidia-b200 ------------------> |             |
 |         |          Header: PAYMENT-SIGNATURE: {voucher, sig}        |             |
 |         |                                                           |             |
 |         |                                               [FastAgentPayEngine]      |
@@ -113,30 +116,26 @@ Run on standard Node.js runtime:
 
 ---
 
-## 🛡️ Failsafe Security & Threat Model
-
-1. **Replay Attacks**: Prevented via the in-memory/Redis `NonceLedger`. Each voucher has a strictly monotonic sequence number and sliding timestamp window. Replayed vouchers are rejected in 0.002ms.
-2. **Double Spending / Insolvency**: The state channel ledger tracks cumulative claims against the locked escrow deposit. Overdraft vouchers are blocked immediately with `402 Channel Depleted`.
-3. **Cross-Resource Tampering**: Every voucher commits to `resourceHash = keccak256(uri)`. A voucher signed for `/article-1` cannot be intercepted and re-used for `/article-2`.
-4. **Cross-Site Theft**: Vouchers are strictly bound to `recipientAddress` (the publisher's wallet).
-5. **Clock Skew & Expiration**: Strict expiry timestamps (default 120 seconds) prevent holding ancient signed checks.
-
----
-
 ## 💻 1. How Website Owners Integrate It
+
+### Installation
+
+```bash
+npm install agentpay-protocol
+```
 
 ### Option A: Express / Node.js Middleware (3 Lines of Code)
 
 ```javascript
 import express from "express";
-import { createPPVMiddleware } from "agent-pay-protocol";
+import { createPPVMiddleware } from "agentpay-protocol/server";
 
 const app = express();
 
 // Protect reviews with a $0.05 PPV Gate
 app.use("/api/reviews", createPPVMiddleware({
   priceUsd: 0.05,
-  recipientAddress: "0xYourWalletAddress...",
+  recipientAddress: "0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F",
   currency: "USDC",
   chainId: 8453, // Base L2
   gateMode: "agents-only" // Humans browse free with ads; AI agents pay $0.05!
@@ -149,14 +148,16 @@ app.get("/api/reviews/nvidia-b200", (req, res) => {
 
 ### Option B: Drop-in HTML Script Tag (For WordPress, Static Blogs & SPAs)
 
+Directly hosted on the GitHub Pages CDN:
+
 ```html
 <!-- Drop into the <head> of your website -->
 <script
-  src="https://cdn.agentpay.network/v1/gate.js"
-  data-site-id="tech-insights"
+  src="https://khank8476.github.io/Agentpay/gate.js"
+  data-site-id="tech-reviews"
   data-price="0.05"
   data-currency="USDC"
-  data-wallet="0xYourPublisherAddress..."
+  data-wallet="0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F"
   data-mode="agent-only"
   async>
 </script>
@@ -169,7 +170,7 @@ app.get("/api/reviews/nvidia-b200", (req, res) => {
 AI Agents using LangChain, CrewAI, AutoGPT, or custom scraper scripts can wrap HTTP requests with `PPVAgentClient`:
 
 ```javascript
-import { PPVAgentClient } from "agent-pay-protocol/agent";
+import { PPVAgentClient } from "agentpay-protocol/agent";
 
 const agent = new PPVAgentClient({
   privateKey: "0xAgentPrivateKey...",
@@ -178,7 +179,7 @@ const agent = new PPVAgentClient({
 });
 
 // Automatically negotiates 402, signs payment in 0.2ms, and fetches data transparently!
-const response = await agent.fetch("https://techinsights.io/api/reviews/nvidia-b200");
+const response = await agent.fetch("https://example.com/api/reviews/nvidia-b200");
 const data = await response.json();
 console.log(data);
 ```
@@ -187,36 +188,33 @@ console.log(data);
 
 ## 🚀 Running the Live Demo & Verification Tests
 
-### 1. Run the Security & Failsafe Test Suite
-Verifies all 7 security vectors (replay attack, forgery, double spend, expiry, resource tampering):
-```bash
-npm run security-test
-```
-
-### 2. Run the Sub-Millisecond Speed Benchmark
-Measures CPU cryptographic verification latencies with microsecond precision:
-```bash
-npm test
-```
-
-### 3. Launch the Live Publisher Gateway & Web Dashboard
-```bash
-npm run demo
-```
-Open **`http://localhost:3000`** in your browser to view:
-* Real-time metrics counters (USDC earned, visits paid, verification latency)
+### 1. View the Live Web Dashboard
+Visit **[https://khank8476.github.io/Agentpay/](https://khank8476.github.io/Agentpay/)** to test:
 * Interactive simulator buttons to trigger AI Agent visits, Human free visits, and Replay attacks
+* Real-time metrics counters (USDC earned, visits paid, verification latency)
 * Live telemetry stream
 
-### 4. Run the Autonomous AI Research Agent
+### 2. Run Locally via Node.js
+```bash
+npm run demo
+# Open http://localhost:3000 in your browser
+```
+
+### 3. Run the Autonomous AI Research Agent (CLI)
 In a separate terminal, watch the simulated AI agent crawl the publisher site, negotiate payments, and unlock articles:
 ```bash
 npm run simulate
 ```
 
-### 5. Run the 50-Request End-to-End Network Benchmark
+### 4. Run the Security & Failsafe Test Suite
+Verifies all 7 security vectors (replay attack, forgery, double spend, expiry, resource tampering):
 ```bash
-npm run benchmark
+npm run security-test
+```
+
+### 5. Run the Sub-Millisecond Speed Benchmark
+```bash
+npm run test:fast
 ```
 
 ---
@@ -236,7 +234,5 @@ Contributions are warmly welcomed! Please read [`CONTRIBUTING.md`](CONTRIBUTING.
 
 ## 📄 License
 
-AgentPay Protocol is licensed under the [MIT License](LICENSE).
+AgentPay Protocol is licensed under the [MIT License](LICENSE).  
 Copyright &copy; 2026 AgentPay Protocol Contributors.
-
-

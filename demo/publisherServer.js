@@ -17,9 +17,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Publisher Wallet Configuration
-const PUBLISHER_WALLET = ethers.Wallet.createRandom();
-const PUBLISHER_ADDRESS = PUBLISHER_WALLET.address;
+// Publisher Wallet Configuration (User's address by default)
+const PUBLISHER_ADDRESS = process.env.PUBLISHER_ADDRESS || "0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F";
 
 console.log("===============================================================");
 console.log("🚀 STARTING AGENTPAY PUBLISHER SERVER & DEMO GATEWAY 🚀");
