@@ -1,6 +1,6 @@
 {
   "name": "agentpay-protocol",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ultra-Fast 1-2ms Pay-Per-Action (PPA) and Pay-Per-Visit (PPV) Micropayment Protocol for Autonomous AI Agents",
   "main": "packages/core/src/index.js",
   "type": "module",
