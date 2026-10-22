@@ -1,0 +1,9 @@
+# These are supported funding model platforms
+
+github: # Replace with your GitHub username (e.g. khank8476) if enrolled in GitHub Sponsors
+patreon: # Patreon username
+open_collective: # Open Collective username
+ko_fi: # Ko-fi username
+custom:
+  - 'https://etherscan.io/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F'
+  - 'https://basescan.org/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F'

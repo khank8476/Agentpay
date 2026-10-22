@@ -1,7 +1,7 @@
 {
-  "name": "agent-pay-protocol",
+  "name": "agentpay",
   "version": "1.0.0",
-  "description": "Ultra-Fast 1-2ms Pay-Per-Action (PPA) and Pay-Per-Visit (PPV) Micropayment System for the AI Agentic Web",
+  "description": "Ultra-Fast 1-2ms Pay-Per-Action (PPA) and Pay-Per-Visit (PPV) Micropayment Protocol for Autonomous AI Agents",
   "main": "packages/core/src/index.js",
   "type": "module",
   "scripts": {
@@ -12,9 +12,27 @@
     "simulate": "node demo/autonomousAgent.js",
     "benchmark": "node demo/benchmarkSuite.js"
   },
-  "keywords": ["x402", "micropayments", "ai-agents", "pay-per-visit", "pay-per-action", "web3", "usdc"],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khank8476/Agentpay.git"
+  },
+  "keywords": [
+    "agentpay",
+    "x402",
+    "micropayments",
+    "ai-agents",
+    "pay-per-visit",
+    "pay-per-action",
+    "web3",
+    "usdc",
+    "m2m"
+  ],
+  "author": "AgentPay Protocol Contributors",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khank8476/Agentpay/issues"
+  },
+  "homepage": "https://github.com/khank8476/Agentpay#readme",
   "dependencies": {
     "cors": "^2.8.6",
     "ethers": "^6.17.0",

@@ -1,6 +1,39 @@
 # AgentPay Protocol: Ultra-Fast 1-2ms Pay-Per-Action (PPA) & Pay-Per-Visit (PPV) for the AI Agentic Web
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![x402 Compatible](https://img.shields.io/badge/x402-Standard-green.svg)](https://x402.org)
+[![Node.js CI](https://github.com/khank8476/Agentpay/actions/workflows/ci.yml/badge.svg)](https://github.com/khank8476/Agentpay/actions)
+[![Network](https://img.shields.io/badge/Network-Base%20%7C%20Arbitrum%20%7C%20Ethereum-blueviolet.svg)](https://base.org)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 An open, high-performance HTTP-native micropayment gateway and middleware built on the **x402 standard** (`HTTP 402 Payment Required`). Designed to replace dying ad-impression revenue by charging autonomous AI agents, crawlers, and LLM search bots (e.g. ClaudeBot, GPTBot, Perplexity) micro-fees (e.g. **$0.05 USDC per visit/action**) with **sub-millisecond cryptographic confirmation (< 0.2ms)**.
+
+---
+
+## 💖 Support & Donate
+
+AgentPay is an open-source, community-driven public good designed to save the open web from traffic cannibalization by autonomous agents. If you find this project valuable, consider sponsoring development or donating crypto:
+
+<div align="center">
+
+### 🪙 Multi-Chain EVM Donation Address
+```
+0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F
+```
+
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=ethereum:0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F" alt="Donation QR Code" width="160" height="160"/>
+
+<br/>
+
+[![Ethereum](https://img.shields.io/badge/Ethereum-Etherscan-3c3c3d?logo=ethereum&logoColor=white)](https://etherscan.io/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F)
+[![Base](https://img.shields.io/badge/Base-Basescan-0052ff?logo=coinbase&logoColor=white)](https://basescan.org/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F)
+[![Arbitrum](https://img.shields.io/badge/Arbitrum-Arbiscan-28a0f0?logo=arbitrum&logoColor=white)](https://arbiscan.io/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F)
+[![Polygon](https://img.shields.io/badge/Polygon-Polygonscan-8247e5?logo=polygon&logoColor=white)](https://polygonscan.com/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F)
+[![Optimism](https://img.shields.io/badge/Optimism-Optimistic_Etherscan-ff0420?logo=optimism&logoColor=white)](https://optimistic.etherscan.io/address/0x57EC1494fA41859C3b507365f9E39aB7D28F4c9F)
+
+<p><strong>Accepted Assets:</strong> ETH, USDC, USDT, and any ERC-20 token on Base, Arbitrum, Ethereum, Polygon, and Optimism.</p>
+
+</div>
 
 ---
 
@@ -194,4 +227,16 @@ Located at [`contracts/MicropaymentEscrow.sol`](file:///c:/Users/KAMRAN/Download
 * Supports USDC/USDT on Base, Arbitrum, Optimism, and Ethereum.
 * Allows publishers to settle accumulated off-chain vouchers with a single transaction.
 * Features a 24-hour challenge dispute period for agent fund withdrawals.
+
+---
+
+## 🤝 Community & Contributing
+
+Contributions are warmly welcomed! Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) before submitting pull requests.
+
+## 📄 License
+
+AgentPay Protocol is licensed under the [MIT License](LICENSE).
+Copyright &copy; 2026 AgentPay Protocol Contributors.
+
 
