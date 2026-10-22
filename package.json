@@ -1,0 +1,23 @@
+{
+  "name": "agent-pay-protocol",
+  "version": "1.0.0",
+  "description": "Ultra-Fast 1-2ms Pay-Per-Action (PPA) and Pay-Per-Visit (PPV) Micropayment System for the AI Agentic Web",
+  "main": "packages/core/src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node packages/core/tests/benchmark.test.js",
+    "test:fast": "node packages/core/tests/full_ed25519_benchmark.test.js",
+    "security-test": "node packages/core/tests/security.test.js",
+    "demo": "node demo/publisherServer.js",
+    "simulate": "node demo/autonomousAgent.js",
+    "benchmark": "node demo/benchmarkSuite.js"
+  },
+  "keywords": ["x402", "micropayments", "ai-agents", "pay-per-visit", "pay-per-action", "web3", "usdc"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "ethers": "^6.17.0",
+    "express": "^5.3.0"
+  }
+}
